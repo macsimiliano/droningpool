@@ -11,6 +11,13 @@
             <v-list-tile-title v-if="!freeDraw">Draw Waypoints</v-list-tile-title>
             <v-list-tile-title v-else>Cancel drawing</v-list-tile-title>
           </v-list-tile>
+
+          <v-list-tile @click="toggleCustomZone">
+            <v-list-tile-action>
+              <v-icon>texture</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-title >Custom Zone Example</v-list-tile-title>
+          </v-list-tile>
         </v-list>
       </v-navigation-drawer>
 
@@ -60,6 +67,7 @@
         :toggleFreeDraw="freeDraw"
         :toggleDiseases="diseases"
         :toggleFlightPath="flightPath"
+        :toggleCustomExample="customZone"
       />
       <!-- </v-layout> -->
       <!-- </v-container> -->
@@ -70,7 +78,7 @@
 
       <v-footer height="auto" fixed dark>
         <v-layout justify-center fixed row wrap>
-          <v-btn color="success" @click="toggleDiseases">Auto Growth Anomaly Zones </v-btn>
+          <v-btn color="success" @click="toggleDiseases">Auto Growth Anomaly Zones</v-btn>
           <v-btn
             color="success"
             :disabled="!diseases"
@@ -89,16 +97,15 @@
       </v-footer>
       <v-dialog v-model="dialog" width="800px">
         <v-card>
-          <v-card-title class="grey lighten-4 py-4 title">Save Waypoint</v-card-title>
+          <v-card-title class="grey lighten-4 py-4 title">Save Route</v-card-title>
           <v-container grid-list-sm class="pa-4">
             <v-layout row wrap>
               <v-flex xs6>
-                <v-text-field placeholder="Add waypoints name"></v-text-field>
+                <v-text-field placeholder="Add route name"></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
           <v-card-actions>
-            <v-btn flat color="primary">More</v-btn>
             <v-spacer></v-spacer>
             <v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
             <v-btn flat @click="dialog = false">Save</v-btn>
@@ -137,6 +144,8 @@ export default class App extends Vue {
   diseases: boolean = false;
   flightPath: boolean = false;
   validatedFlight: boolean = false;
+  customZone: boolean = false;
+
 
   toggleFreeDraw() {
     this.freeDraw = this.freeDraw ? false : true;
@@ -162,6 +171,10 @@ export default class App extends Vue {
 
   toggleValidateFlightPlan() {
     this.validatedFlight = this.validatedFlight ? false : true;
+  }
+
+  toggleCustomZone(){
+    this.customZone = this.customZone ? false : true;
   }
 }
 </script>

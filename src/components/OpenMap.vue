@@ -25,6 +25,7 @@ export default class OpenMap extends Vue {
   @Prop(Boolean) toggleFreeDraw!: boolean;
   @Prop(Boolean) toggleDiseases!: boolean;
   @Prop(Boolean) toggleFlightPath!: boolean;
+  @Prop(Boolean) toggleCustomExample!: boolean;
 
   @Watch("toggleFreeDraw")
   onToggleFreeDrawChanged(val: boolean, oldVal: boolean) {
@@ -50,6 +51,15 @@ export default class OpenMap extends Vue {
   onToggleFlightPath(val: boolean, oldVal: boolean) {
     if (val) {
       this.loadBestPath();
+    } else {
+      // unload diseases
+    }
+  }
+
+  @Watch("toggleCustomExample")
+  onToggleCustomExample(val: boolean, oldVal: boolean) {
+    if (val) {
+      this. customZoneExample();
     } else {
       // unload diseases
     }
@@ -368,13 +378,12 @@ export default class OpenMap extends Vue {
       geometry: {
         type: "LineString",
         coordinates: [
-          [1.491817831993103, 43.62452963976354],
-          [1.4928317070007324, 43.62421121845273],
-          [1.4928209781646726, 43.62428499915049],
-          [1.4932420849800108, 43.624475275268914],
-          [1.492968499660492, 43.624108313644136],
-          [1.493714153766632, 43.624102488838375],
-          [1.491793692111969, 43.624560705166985]
+          [1.4919573068618772, 43.62455876357972],
+          [1.4927861094474792, 43.62423840082561],
+          [1.4930543303489685, 43.62410443044035],
+          [1.4936256408691406, 43.62408889762275],
+          [1.4932045340538025, 43.62443256027433],
+          [1.491970717906952, 43.62457429627595]
         ]
       }
     };
@@ -386,13 +395,12 @@ export default class OpenMap extends Vue {
     };
     this.loadPolygonsOnMap(dronePath, colors);
 
-    this.AddWaypoints(43.62452963976354, 1.491817831993103);
-    this.AddWaypoints(43.62421121845273, 1.4928317070007324);
-    this.AddWaypoints(43.62428499915049, 1.4928209781646726);
-    this.AddWaypoints(43.624475275268914, 1.4932420849800108);
-    this.AddWaypoints(43.624108313644136, 1.492968499660492);
-    this.AddWaypoints(43.624102488838375, 1.493714153766632);
-    this.AddWaypoints(43.624560705166985, 1.491793692111969);
+    this.AddWaypoints(43.62455876357972, 1.4919573068618772);
+    this.AddWaypoints(43.62423840082561, 1.4927861094474792);
+    this.AddWaypoints(43.62410443044035, 1.4930543303489685);
+    this.AddWaypoints(43.62408889762275, 1.4936256408691406);
+    this.AddWaypoints(43.62443256027433, 1.4932045340538025);
+    this.AddWaypoints(43.62457429627595, 1.491970717906952);
 
     //this.addRoutingControlMachine();
   }
@@ -416,6 +424,95 @@ export default class OpenMap extends Vue {
   //     ]
   //   }).addTo(this.mymap);
   // }
+
+  customZoneExample() {
+    this.loadVidailhanPark();
+
+    var diseases = {
+      type: "Feature",
+      properties: {
+        stroke: "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        fill: "#555555",
+        "fill-opacity": 0.5
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [1.4930972456932, 43.62446168413756],
+            [1.4927861094474724, 43.624222868042594],
+            [1.4933788776397636, 43.62393745244078],
+            [1.494170129299157, 43.62431023989474],
+            [1.4930972456932068, 43.62445974254711],
+            [1.4930972456932, 43.62446168413756]
+          ]
+        ]
+      }
+    };
+    var colors = {
+      color: "#c30101",
+      weight: 5,
+      opacity: 0.7
+    };
+
+    this.loadPolygonsOnMap(diseases, colors);
+
+    ///////// flight pathh
+
+    var dronePath = {
+      type: "Feature",
+      properties: {},
+      geometry: {
+        type: "LineString",
+        coordinates: [
+          [1.491919755935669, 43.624537406115905],
+          [1.4928504824638367, 43.62422675123875],
+          [1.4931750297546384, 43.62445003459398],
+          [1.4932286739349365, 43.6244209107251],
+          [1.4929121732711792, 43.62419568566271],
+          [1.4930221438407898, 43.62413549606353],
+          [1.4933332800865173, 43.62439761161984],
+          [1.4934459328651428, 43.62437237091228],
+          [1.4930838346481323, 43.62411413844931],
+          [1.4932098984718323, 43.62405200716485],
+          [1.4935746788978577, 43.62437431250555],
+          [1.4937543869018555, 43.62434130541154],
+          [1.4932957291603088, 43.624024824707696],
+          [1.4933976531028748, 43.62396657654387],
+          [1.4939609169960022, 43.62427723276551],
+          [1.4940091967582703, 43.62430247351301],
+          [1.4919358491897583, 43.624556821992435]
+        ]
+      }
+    };
+
+    var colors2 = {
+      color: "#4ca64c",
+      weight: 5,
+      opacity: 0.8
+    };
+    this.loadPolygonsOnMap(dronePath, colors2);
+
+    this.AddWaypoints(43.624537406115905, 1.491919755935669);
+    this.AddWaypoints(43.62422675123875, 1.4928504824638367);
+    this.AddWaypoints(43.62445003459398, 1.4931750297546384);
+    this.AddWaypoints(43.6244209107251, 1.4932286739349365);
+    this.AddWaypoints(43.62419568566271, 1.4929121732711792);
+    this.AddWaypoints(43.62413549606353, 1.4930221438407898);
+    this.AddWaypoints(43.62439761161984, 1.4933332800865173);
+    this.AddWaypoints(43.62437237091228, 1.4934459328651428);
+    this.AddWaypoints(43.62411413844931, 1.4930838346481323);
+    this.AddWaypoints(43.62405200716485, 1.4932098984718323);
+    this.AddWaypoints(43.62437431250555, 1.4935746788978577);
+    this.AddWaypoints(43.62434130541154, 1.4937543869018555);
+    this.AddWaypoints(43.624024824707696, 1.4932957291603088);
+    this.AddWaypoints(43.62396657654387, 1.4933976531028748);
+    this.AddWaypoints(43.62427723276551, 1.4939609169960022);
+    this.AddWaypoints(43.62430247351301, 1.4940091967582703);
+    this.AddWaypoints(43.624556821992435, 1.4919358491897583);
+  }
 }
 </script>
 
